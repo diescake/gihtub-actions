@@ -18,9 +18,6 @@ jobs:
           script: |
             const { BODY, CATEGORY_NAME } = process.env;
 
-            console.log(CATEGORY_NAME)
-            console.log(BODY)
-
             if (CATEGORY_NAME !== 'Playground') return;
 
             const body = BODY.toLowerCase();
@@ -39,6 +36,6 @@ jobs:
             github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              discussion_number: context.payload.discussion.number,
+              issue_number: context.payload.discussion.number,
               labels: [label]
             });
