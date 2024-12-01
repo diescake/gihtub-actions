@@ -12,9 +12,9 @@ jobs:
     permissions:
       discussions: write
     steps:
-      - uses: actions/github-script@v7
-        name: Get ids
+      - name: Get ids
         id: get_ids
+        uses: actions/github-script@v7
         env:
           CATEGORY_NAME: ${{ github.event.discussion.category.name}}
           BODY: ${{ github.event.discussion.body}}
@@ -22,7 +22,10 @@ jobs:
           script: |
             const { BODY, CATEGORY_NAME } = process.env;
 
-            if (CATEGORY_NAME !== 'Playground') return null;
+            if (CATEGORY_NAME !== 'Playground') {
+              core.setFailed();
+              return;
+            }
 
             const body = BODY.toLowerCase();
 
@@ -35,19 +38,18 @@ jobs:
               labelId = 'LA_kwDONXJT488AAAAB0kRrWA';
             }
 
-            if (!labelId) return null;
+            if (!labelId) {
+              core.setFailed();
+              return;
+            }
 
             const discussionId = context.payload.discussion.node_id;
 
             console.log(`labelId: ${labelId}`);
             console.log(`discussionId: ${discussionId}`);
 
-            return {
-              labelId,
-              discussionId,
-            };
+            return { labelId, discussionId };
       - name: Clear labels
-        if: ${{ steps.get_ids.outputs.result != null }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISCUSSION_ID: ${{ fromJSON(steps.get_ids.outputs.result).discussionId }}
@@ -68,7 +70,6 @@ jobs:
               }
             }' -f labelableId=$DISCUSSION_ID
       - name: Add label
-        if: ${{ steps.get_ids.outputs.result != null }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LABEL_ID: ${{ fromJSON(steps.get_ids.outputs.result).labelId }}
