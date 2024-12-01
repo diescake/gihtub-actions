@@ -36,8 +36,8 @@ jobs:
 
             if (!labelId) return;
 
-            // const discussionId = context.payload.discussion.node_id;
-            const discussionId = context.payload.discussion.id;
+            const discussionId = context.payload.discussion.node_id;
+            // const discussionId = context.payload.discussion.id;
 
             console.log(`labelId: ${labelId}`);
             console.log(`discussionId: ${discussionId}`);
