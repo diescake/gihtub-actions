@@ -11,15 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v7
+        name: Get ids
+        id: get_ids
         env:
           CATEGORY_NAME: ${{ github.event.discussion.category.name}}
           BODY: ${{ github.event.discussion.body}}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { BODY, CATEGORY_NAME } = process.env;
 
-            if (CATEGORY_NAME !== 'Playground') return;
+            if (CATEGORY_NAME !== 'Playground') return null;
 
             const body = BODY.toLowerCase();
 
@@ -32,22 +33,36 @@ jobs:
               labelId = 'LA_kwDONXJT488AAAAB0kRrWA';
             }
 
-            if (!labelId) return;
+            if (!labelId) return null;
 
             const discussionId = context.payload.discussion.node_id;
 
             console.log(`labelId: ${labelId}`);
             console.log(`discussionId: ${discussionId}`);
 
-            const query = `mutation($discussionId: ID!, $labelIds: [ID!]!) {
-              addLabelsToLabelable(input: {labelableId: $discussionId, labelIds: $labelIds}) {
-                clientMutationId
-              }
-            }`;
-            const variables = {
+            return {
+              labelId,
               discussionId,
-              labelIds: [labelId],
             };
-
-            const result = await github.graphql({ query, variables });
-            console.log(result);
+      - name: Add label
+        if: ${{ steps.get_ids.outputs.result.labelId != null }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISCUSSION_ID: ${{ steps.get_ids.outputs.result.discussionId }}
+          LABEL_ID: ${{ steps.get_ids.outputs.result.labelId }}
+        run: |
+          gh api graphql -f query='
+            mutation($labelableId: ID!, $labelIds: [ID!]!) {
+              addLabelsToLabelable(input: {labelableId: $labelableId, labelIds: $labelIds}) {
+                labelable {
+                  labels(first: 10) {
+                    edges {
+                      node {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f labelableId=$DISCUSSION_ID -f labelIds=$LABEL_ID
