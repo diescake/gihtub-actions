@@ -31,7 +31,7 @@ jobs:
               labelId = '7822666584';
             }
 
-            if (!labelId) return
+            if (!labelId) return;
 
             const discussionId = context.payload.discussion.id;
 
@@ -46,7 +46,7 @@ jobs:
             const variables = {
               discussionId,
               labelIds: [labelId],
-            }
+            };
 
-            const result = await github.graphql({ query, variables }
-            console.log(result)
+            const result = await github.graphql({ query, variables });
+            console.log(result);
