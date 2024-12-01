@@ -48,8 +48,7 @@ jobs:
         if: ${{ steps.get_ids.outputs.result != null }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DISCUSSION_ID: ${{ steps.get_ids.outputs.result.discussionId }}
-          LABEL_ID: ${{ steps.get_ids.outputs.result.labelId }}
+          INPUT: ${{ steps.get_ids.outputs.result }}
         run: |
           gh api graphql -f query='
             mutation($labelableId: ID!, $labelIds: [ID!]!) {
