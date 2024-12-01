@@ -35,14 +35,18 @@ jobs:
 
             const discussionId = context.payload.discussion.id;
 
-            await github.graphql({
-              query: `mutation($discussionId: ID!, $labelIds: [ID!]!) {
-                addLabelsToLabelable(input: {labelableId: $discussionId, labelIds: $labelIds}) {
-                  clientMutationId
-                }
-              }`,
-              variables: {
-                discussionId,
-                labelIds: [labelId],
+            console.log(`labelId: ${labelId}`);
+            console.log(`discussionId: ${discussionId}`);
+
+            const query = `mutation($discussionId: ID!, $labelIds: [ID!]!) {
+              addLabelsToLabelable(input: {labelableId: $discussionId, labelIds: $labelIds}) {
+                clientMutationId
               }
-            });
+            }`;
+            const variables = {
+              discussionId,
+              labelIds: [labelId],
+            }
+
+            const result = await github.graphql({ query, variables }
+            console.log(result)
