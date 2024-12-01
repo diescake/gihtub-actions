@@ -9,6 +9,8 @@ jobs:
   auto-label:
     name: Set label
     runs-on: ubuntu-latest
+    permissions:
+      discussions: write
     steps:
       - uses: actions/github-script@v7
         name: Get ids
