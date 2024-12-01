@@ -33,6 +33,8 @@ jobs:
 
             if (!label) return
 
+            console.log(context)
+
             github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
