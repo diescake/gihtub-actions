@@ -1,0 +1,21 @@
+# hello world for github actions
+name: hello world
+
+on:
+  workflow_dispatch:
+    inputs:
+      your-message:
+        description: 'Input your your message.'
+        required: true
+        default: 'hello world'
+
+jobs:
+  echo-message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Echo your message
+        env:
+          YOUR_MESSAGE: ${{ github.event.inputs.your-message }}
+        run: |
+          echo $YOUR_MESSAGE
