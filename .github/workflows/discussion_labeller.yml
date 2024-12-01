@@ -24,16 +24,16 @@ jobs:
 
             let labelId = '';
             if (body.includes('hello world')) {
-              labelId = '7822666334';
+              labelId = 'LA_kwDONXJT488AAAAB0kRqXg';
             } else if (body.includes('hello')) {
-              labelId = '7822666462';
+              labelId = 'LA_kwDONXJT488AAAAB0kRq3g';
             } else if (body.includes('world')) {
-              labelId = '7822666584';
+              labelId = 'LA_kwDONXJT488AAAAB0kRrWA';
             }
 
             if (!labelId) return;
 
-            const discussionId = context.payload.discussion.id;
+            const discussionId = context.payload.discussion.node_id;
 
             console.log(`labelId: ${labelId}`);
             console.log(`discussionId: ${discussionId}`);
