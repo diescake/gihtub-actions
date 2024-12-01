@@ -22,10 +22,7 @@ jobs:
           script: |
             const { BODY, CATEGORY_NAME } = process.env;
 
-            if (CATEGORY_NAME !== 'Playground') {
-              core.setFailed();
-              return;
-            }
+            if (CATEGORY_NAME !== 'Playground') return null;
 
             const body = BODY.toLowerCase();
 
@@ -38,10 +35,7 @@ jobs:
               labelId = 'LA_kwDONXJT488AAAAB0kRrWA';
             }
 
-            if (!labelId) {
-              core.setFailed();
-              return;
-            }
+            if (!labelId) return null;
 
             const discussionId = context.payload.discussion.node_id;
 
@@ -50,6 +44,7 @@ jobs:
 
             return { labelId, discussionId };
       - name: Clear labels
+        if: ${{ steps.get_ids.outputs.result != null }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISCUSSION_ID: ${{ fromJSON(steps.get_ids.outputs.result).discussionId }}
@@ -70,6 +65,7 @@ jobs:
               }
             }' -f labelableId=$DISCUSSION_ID
       - name: Add label
+        if: ${{ steps.get_ids.outputs.result != null }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LABEL_ID: ${{ fromJSON(steps.get_ids.outputs.result).labelId }}
