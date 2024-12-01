@@ -1,55 +1,110 @@
-title: "[Playground] "
-labels: ["General Introduction"]
 body:
   - type: markdown
     attributes:
-      value: |
-        This is text that will show up in the template!
-  - type: textarea
-    id: improvements
-    attributes:
-      label: Top 3 improvements
-      description: "What are the top 3 improvements we could make to this project?"
-      value: |
-        1.
-        2.
-        3.
-        ...
-      render: bash
-    validations:
-      required: true
-  - type: markdown
-    attributes:
-      value: |
-        ## Markdown header
-        And some more markdown
+      value: "Welcome to the [UFO](https://en.wikipedia.org/wiki/Unidentified_flying_object) Sighting Report form. Please provide as much detail as possible to help our community analyze your experience."
+
   - type: input
-    id: has-id
+    id: date
     attributes:
-      label: Suggestions
-      description: A description about suggestions to help you
+      label: Date of Sighting
+      description: When did you observe the UFO? (e.g., 2024/01/23)
     validations:
       required: true
+
+  - type: input
+    id: time
+    attributes:
+      label: Time of Sighting
+      description: At what time did you observe the UFO? (Use 24-hour format, e.g., 23:15)
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Where did you see the UFO? (City, State/Province, Country)
+    validations:
+      required: true
+
   - type: dropdown
-    id: download
+    id: shape
     attributes:
-      label: Which area of this project could be most improved?
+      label: Shape of UFO
+      description: |
+        What shape best describes the object you saw? 
+        - Circular
+        - Triangular
+        - Cylindrical
+        - Boomerang
+        - Sphere
+        - Disc
+        - Other (please specify in description)
       options:
-        - Documentation
-        - Pull request review time
-        - Bug fix time
-        - Release cadence
+        - Circular
+        - Triangular
+        - Cylindrical
+        - Boomerang
+        - Sphere
+        - Disc
+        - Other (please specify in description)
     validations:
       required: true
-  - type: checkboxes
+
+  - type: textarea
+    id: description
     attributes:
-      label: Check that box!
-      options:
-        - label: This one!
-          required: true
-        - label: I won't stop you if you check this one, too
-  - type: markdown
-    attributes:
+      label: Detailed Description
+      description: Provide a detailed account of what you saw. Include color, size, movement patterns, and any other relevant details.
       value: |
-        ### The thrilling conclusion
-        _to our template_
+        <!-- I saw a large, circular object hovering in the sky. It was silver in color and emitted a bright light. The object made no sound and moved slowly across the horizon. -->
+    validations:
+      required: true
+
+  - type: textarea
+    id: duration
+    attributes:
+      label: Duration of Sighting
+      description: How long did you observe the UFO?
+      value: |
+        <!-- I observed the object for approximately 10 minutes before it disappeared behind the clouds. -->
+    validations:
+      required: false
+
+  - type: textarea
+    id: witnesses
+    attributes:
+      label: Other Witnesses
+      description: Were there other witnesses? If so, how many? Did they share your perception of the event?
+    validations:
+      required: false
+
+  - type: textarea
+    id: effects
+    attributes:
+      label: Environmental Effects
+      description: Did you notice any effects on the environment or electronic devices during the sighting?
+      value: |
+        <!-- The object emitted a low humming sound that seemed to disrupt nearby electronic devices. -->
+    validations:
+      required: false
+
+  - type: textarea
+    id: personal_reaction
+    attributes:
+      label: Personal Reaction
+      description: How did this experience affect you emotionally or psychologically?
+      value: |
+        <!-- I felt a mix of fear and awe as I watched the object hover in the sky. -->
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional_info
+    attributes:
+      label: Additional Information
+      description: Is there anything else you'd like to share about your experience?
+      value: |
+        <!-- I have attached a photo of the object taken with my smartphone. -->
+    validations:
+      required: false
