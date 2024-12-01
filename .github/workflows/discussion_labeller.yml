@@ -1,0 +1,41 @@
+# auto label for GitHub Discussion
+name: Auto label for GitHub Discussion
+
+on:
+  discussion:
+    types: [created, edited]
+
+jobs:
+  auto-label:
+    name: Set label
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script
+        env:
+          CATEGORY: ${{ github.event.discussion.category}} 
+          BODY: ${{ github.event.discussion.body}}
+        with:
+          script: |
+            const { BODY, CATEGORY } = process.env;
+
+            if (CATEGORY !== 'HOGE') return;
+
+            const body = BODY.toLowerCase();
+
+            let label = '';
+            if (body.includes('hello world')) {
+              label = 'Hello World';
+            } else if (body.includes('hello')) {
+              label = 'Hello Only';
+            } else if (body.includes('world')) {
+              label = 'World Only';
+            }
+
+            if (!label) return
+
+            github.rest.discussions.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              discussion_number: context.discussion.number,
+              labels: [label]
+            });
