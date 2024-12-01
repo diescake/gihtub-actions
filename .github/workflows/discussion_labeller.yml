@@ -53,7 +53,7 @@ jobs:
           DISCUSSION_ID: ${{ fromJSON(steps.get_ids.outputs.result).discussionId }}
         run: |
           gh api graphql -f query='
-            mutation($labelableId: ID!, $labelIds: [ID!]!) {
+            mutation($labelableId: ID!) {
               clearLabelsFromLabelable(input: {labelableId: $labelableId}) {
                 labelable {
                   labels(first: 10) {
