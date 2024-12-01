@@ -35,7 +35,7 @@ jobs:
 
             const discussionId = context.payload.discussion.id;
 
-            await github.rest.graphql({
+            await github.graphql({
               query: `mutation($discussionId: ID!, $labelIds: [ID!]!) {
                 addLabelsToLabelable(input: {labelableId: $discussionId, labelIds: $labelIds}) {
                   clientMutationId
