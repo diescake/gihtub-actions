@@ -10,7 +10,7 @@ jobs:
     name: Set label
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script
+      - uses: actions/github-script@v7
         env:
           CATEGORY: ${{ github.event.discussion.category}} 
           BODY: ${{ github.event.discussion.body}}
