@@ -46,6 +46,27 @@ jobs:
               labelId,
               discussionId,
             };
+      - name: Clear labels
+        if: ${{ steps.get_ids.outputs.result != null }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DISCUSSION_ID: ${{ fromJSON(steps.get_ids.outputs.result).discussionId }}
+        run: |
+          gh api graphql -f query='
+            mutation($labelableId: ID!, $labelIds: [ID!]!) {
+              addLabelsToLabelable(input: {labelableId: $labelableId}) {
+                labelable {
+                  labels(first: 10) {
+                    edges {
+                      node {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f labelableId=$DISCUSSION_ID
       - name: Add label
         if: ${{ steps.get_ids.outputs.result != null }}
         env:
