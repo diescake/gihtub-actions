@@ -33,7 +33,10 @@ jobs:
 
             if (!label) return
 
-            console.log(context)
+            console.log(context.repo.owner)
+            console.log(context.repo.repo)
+            console.log(context.payload.discussion.number)
+            console.log([label])
 
             github.rest.issues.addLabels({
               owner: context.repo.owner,
