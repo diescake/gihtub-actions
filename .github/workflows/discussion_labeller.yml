@@ -24,16 +24,20 @@ jobs:
 
             let labelId = '';
             if (body.includes('hello world')) {
-              labelId = 'LA_kwDONXJT488AAAAB0kRqXg';
+              # labelId = 'LA_kwDONXJT488AAAAB0kRqXg';
+              labelId = '7822666334';
             } else if (body.includes('hello')) {
-              labelId = 'LA_kwDONXJT488AAAAB0kRq3g';
+              # labelId = 'LA_kwDONXJT488AAAAB0kRq3g';
+              labelId = '7822666462';
             } else if (body.includes('world')) {
-              labelId = 'LA_kwDONXJT488AAAAB0kRrWA';
+              # labelId = 'LA_kwDONXJT488AAAAB0kRrWA';
+              labelId = '7822666584';
             }
 
             if (!labelId) return;
 
-            const discussionId = context.payload.discussion.node_id;
+            # const discussionId = context.payload.discussion.node_id;
+            const discussionId = context.payload.discussion.id;
 
             console.log(`labelId: ${labelId}`);
             console.log(`discussionId: ${discussionId}`);
