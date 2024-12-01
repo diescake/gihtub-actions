@@ -45,7 +45,7 @@ jobs:
               discussionId,
             };
       - name: Add label
-        if: ${{ steps.get_ids.outputs.result.labelId != null }}
+        if: ${{ steps.get_ids.outputs.result != null }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISCUSSION_ID: ${{ steps.get_ids.outputs.result.discussionId }}
