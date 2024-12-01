@@ -22,25 +22,27 @@ jobs:
 
             const body = BODY.toLowerCase();
 
-            let label = '';
+            let labelId = '';
             if (body.includes('hello world')) {
-              label = 'Hello World';
+              labelId = '7822666334';
             } else if (body.includes('hello')) {
-              label = 'Hello Only';
+              labelId = '7822666462';
             } else if (body.includes('world')) {
-              label = 'World Only';
+              labelId = '7822666584';
             }
 
-            if (!label) return
+            if (!labelId) return
 
-            console.log(context.repo.owner)
-            console.log(context.repo.repo)
-            console.log(context.payload.discussion.number)
-            console.log([label])
+            const discussionId = context.payload.discussion.id;
 
-            github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.discussion.number,
-              labels: [label]
+            await github.rest.graphql({
+              query: `mutation($discussionId: ID!, $labelIds: [ID!]!) {
+                addLabelsToLabelable(input: {labelableId: $discussionId, labelIds: $labelIds}) {
+                  clientMutationId
+                }
+              }`,
+              variables: {
+                discussionId,
+                labelIds: [labelId],
+              }
             });
