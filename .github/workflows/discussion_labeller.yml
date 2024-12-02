@@ -52,16 +52,7 @@ jobs:
           gh api graphql -f query='
             mutation($labelableId: ID!) {
               clearLabelsFromLabelable(input: {labelableId: $labelableId}) {
-                labelable {
-                  labels(first: 10) {
-                    edges {
-                      node {
-                        id
-                        name
-                      }
-                    }
-                  }
-                }
+                clientMutationId
               }
             }' -f labelableId=$DISCUSSION_ID
       - name: Add label
@@ -74,15 +65,6 @@ jobs:
           gh api graphql -f query='
             mutation($labelableId: ID!, $labelIds: [ID!]!) {
               addLabelsToLabelable(input: {labelableId: $labelableId, labelIds: $labelIds}) {
-                labelable {
-                  labels(first: 10) {
-                    edges {
-                      node {
-                        id
-                        name
-                      }
-                    }
-                  }
-                }
+                clientMutationId
               }
             }' -f labelableId=$DISCUSSION_ID -f labelIds=$LABEL_ID
